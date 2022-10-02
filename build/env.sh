@@ -1,5 +1,7 @@
 # If you want build tapdata in docker, please set this is to "docker"
 # Or set to to "local", please install jdk and maven before building from local
+set -x
+set -e
 export tapdata_build_env="docker"
 export tapdata_run_env="docker"
 

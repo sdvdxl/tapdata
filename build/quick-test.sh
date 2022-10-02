@@ -1,4 +1,6 @@
 #!/bin/bash
+set -x
+set -e
 basepath=$(cd `dirname $0`; pwd)
 sourcepath=$(cd `dirname $0`/../; pwd)
 

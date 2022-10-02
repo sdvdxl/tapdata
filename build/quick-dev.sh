@@ -1,4 +1,6 @@
 #!/bin/bash
+set -x
+set -e
 basepath=$(cd `dirname $0`; pwd)
 force=$1
 if [[ "x"$force == "x-f" ]]; then
