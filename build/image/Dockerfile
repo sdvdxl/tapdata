@@ -1,4 +1,4 @@
-FROM ghcr.io/tapdata/tapdata/tldp/runtime:0.2
+FROM docker.io/sdvdxl/tapdata-tldp-runtime:0.2
 
 COPY manager /tapdata/apps/manager
 COPY iengine /tapdata/apps/iengine
