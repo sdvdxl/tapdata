@@ -37,6 +37,7 @@ public class OkHttpUtils {
 				return response.body().string();
 			}
 		} catch (Exception e) {
+			throw new RuntimeException(e);
 		} finally {
 			if (response != null) {
 				response.close();

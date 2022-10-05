@@ -25,7 +25,8 @@
 		<module>mariadb-connector</module>
 		<module>hive1-connector</module>
 		<module>coding-connector</module>
-	</modules>
+			<module>connectors-demo</module>
+		</modules>
 	<properties>
 		<connector.file.name>${project.artifactId}-v${project.version}</connector.file.name>
 		<java.version>8</java.version>
