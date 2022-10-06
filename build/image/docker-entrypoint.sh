@@ -43,9 +43,9 @@ start_server() {
         fi
 
         if [[ "x"$mode == "xtest" ]]; then
-            cd /tapdata-source
-            cd manager/dist && bash bin/start.sh && cd -
-            cd iengine/dist && bash bin/start.sh && cd -
+            cd /tapdata/apps
+            cd manager && bash bin/start.sh && cd -
+            cd iengine && bash bin/start.sh && cd -
         fi
     fi
 
@@ -60,9 +60,11 @@ start_server() {
         cp ../build/test.sh ./
         mv ../build/test ./
         chmod u+x test.sh
-        bash test.sh
+        . ./test.sh
         if [[ $? -ne 0 ]]; then
-          exit 127
+            exit 127
+        else
+            exit 0
         fi
     fi
 }
@@ -70,13 +72,9 @@ start_server() {
 _main() {
     start_mongo
     start_server
-    sleep infinity
+    if [[ "x"$mode != "xtest" ]]; then
+        sleep infinity
+    fi
 }
 
-if ! _is_sourced; then
-	_main "$@"
-fi
-
-while [[ 1 ]]; do
-    sleep 10
-done
+_main "$@"
