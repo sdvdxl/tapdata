@@ -14,7 +14,6 @@ RUN chmod +x /tapdata/docker-entrypoint.sh
 COPY tapshell /tapdata/apps/tapshell
 
 RUN cd /tapdata/apps/tapshell && \
-    pip3 install --trusted-host https://repo.huaweicloud.com -i https://repo.huaweicloud.com/repository/pypi/simple \
     pip3 install poetry && \
     poetry export -f requirements.txt --output requirements.txt --without-hashes && \
     pip3 install --no-cache-dir -r requirements.txt

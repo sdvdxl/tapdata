@@ -76,7 +76,7 @@ connector/connector-manager/src/main/resources/json/DataFlow.json
 /start_fornend.bat
 /start_service.bat
 /test.yml
-
+data
 /demos
 **/*.ipr
 **/*.iws
