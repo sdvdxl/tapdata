@@ -26,232 +26,18 @@
     "connection": {
       "type": "object",
       "properties": {
-        "isUri": {
-          "type": "boolean",
-          "title": "${isUri}",
-          "x-decorator": "FormItem",
-          "x-decorator-props": { "feedbackLayout": "none" },
-          "x-component": "Radio.Group",
-          "x-component-props": {
-            "optionType": "button"
-          },
-          "enum": [
-            {
-              "label": "${dataForm_form_options_URIMode}",
-              "value": true,
-              "disabled": false
-            },
-            {
-              "label": "${dataForm_form_options_standardMode}",
-              "value": false,
-              "disabled": false
-            }
-          ],
-          "default": true,
-          "x-reactions": [
-            {
-              "target": "*(host,database,user,password,additionalString)",
-              "fulfill": {
-                "state": {
-                  "visible": "{{$self.value===false}}"
-                }
-              }
-            },
-            {
-              "target": "*(uri,uriTips)",
-              "fulfill": {
-                "state": {
-                  "visible": "{{$self.value!==false}}"
-                }
-              }
-            }
-          ],
-          "required": true,
-          "x-index": 10
-        },
-        "isUrlTips1": {
-          "type": "void",
-          "title": " ",
-          "x-decorator": "FormItem",
-          "x-decorator-props": { "colon": false },
-          "x-component": "Text",
-          "x-component-props": { "icon": "info", "content": "${isUrlTips1}" },
-          "x-reactions": {
-            "dependencies": ["isUri"],
-            "fulfill": { "schema": { "x-decorator-props.style.display": "{{$deps[0]===true ? null:\"none\"}}" } }
-          },
-          "x-index": 18
-        },
-        "isUrlTips2": {
-          "type": "void",
-          "title": " ",
-          "x-decorator": "FormItem",
-          "x-component": "Text",
-          "x-decorator-props": { "colon": false },
-          "x-component-props": { "icon": "info", "content": "${isUrlTips2}" },
-          "x-reactions": {
-            "dependencies": ["isUri"],
-            "fulfill": { "schema": { "x-decorator-props.style.display": "{{$deps[0]===false ? null:\"none\"}}" } }
-          },
-          "x-index": 19
-        },
-        "uri": {
+        "ak": {
           "type": "string",
-          "title": "${dataForm_form_databaseUri}",
+          "title": "${dataForm_form_userName}",
           "x-decorator": "FormItem",
           "x-component": "Input",
-          "apiServerKey": "database_uri",
-          "required": true,
-          "x-index": 20
-        },
-        "uriTips": {
-          "type": "void",
-          "title": " ",
-          "x-decorator": "FormItem",
-          "x-decorator-props": { "colon": false },
-          "x-component": "Text",
-          "x-component-props": { "content": "${uriTips}" },
-          "x-index": 21
-        },
-        "host": {
-          "type": "string",
-          "title": "${dataForm_form_host}",
-          "x-decorator": "FormItem",
-          "x-component": "Input",
-          "x-component-props": {
-            "placeholder": "${connection_form_database_host_placeholder}"
-          },
-          "required": true,
-          "x-index": 30
-        },
-        "database": {
-          "type": "string",
-          "title": "${dataForm_form_databaseName}",
-          "x-decorator": "FormItem",
-          "x-component": "Input",
-          "required": true,
           "x-index": 40
-        },
-        "user": {
+        },"as": {
           "type": "string",
           "title": "${dataForm_form_userName}",
           "x-decorator": "FormItem",
           "x-component": "Input",
           "x-index": 50
-        },
-        "password": {
-          "type": "string",
-          "title": "${dataForm_form_password}",
-          "x-decorator": "FormItem",
-          "x-component": "Password",
-          "x-index": 60
-        },
-        "additionalString": {
-          "type": "string",
-          "title": "${dataForm_form_additionalString}",
-          "x-decorator": "FormItem",
-          "x-component": "Input",
-          "x-index": 70
-        },
-        "ssl": {
-          "type": "boolean",
-          "title": "${dataForm_form_ssl}",
-          "x-decorator": "FormItem",
-          "x-component": "Radio.Group",
-          "x-component-props": {
-            "optionType": "button"
-          },
-          "default": false,
-          "x-index": 80,
-          "enum": [
-            {
-              "label": "${dataForm_form_options_sslTSL}",
-              "value": true
-            },
-            {
-              "label": "${dataForm_form_options_sslTop}",
-              "value": false
-            }
-          ],
-          "x-reactions": [
-            {
-              "target": "*(sslKey,sslPass,sslValidate)",
-              "fulfill": {
-                "state": {
-                  "visible": "{{$self.value===true}}"
-                }
-              }
-            }
-          ]
-        },
-        "ssl_tips1": {
-          "type": "void",
-          "title": " ",
-          "x-decorator": "FormItem",
-          "x-decorator-props": { "colon": false },
-          "x-component": "Text",
-          "x-component-props": { "content": "${ssl_tips1}" },
-          "x-reactions": {
-            "dependencies": ["ssl"],
-            "fulfill": { "schema": { "x-decorator-props.style.display": "{{$deps[0]===true ? null:\"none\"}}" } }
-          },
-          "x-index": 81
-        },
-        "ssl_tips2": {
-          "type": "void",
-          "title": " ",
-          "x-decorator": "FormItem",
-          "x-decorator-props": { "colon": false },
-          "x-component": "Text",
-          "x-component-props": { "content": "${ssl_tips2}" },
-          "x-reactions": {
-            "dependencies": ["ssl"],
-            "fulfill": { "schema": { "x-decorator-props.style.display": "{{$deps[0]===false ? null:\"none\"}}" } }
-          },
-          "x-index": 82
-        },
-        "sslKey": {
-          "type": "string",
-          "title": "${dataForm_form_sslKey}",
-          "x-decorator": "FormItem",
-          "x-component": "TextFileReader",
-          "fileNameField": "sslKeyFile",
-          "required": true,
-          "x-index": 90
-        },
-        "sslPass": {
-          "type": "string",
-          "title": "${dataForm_form_sslPass}",
-          "x-decorator": "FormItem",
-          "x-component": "Password",
-          "x-index": 100
-        },
-        "sslValidate": {
-          "type": "boolean",
-          "title": "${dataForm_form_sslValidate}",
-          "x-decorator": "FormItem",
-          "x-component": "Switch",
-          "show": false,
-          "x-reactions": [
-            {
-              "target": "sslCA",
-              "fulfill": {
-                "state": {
-                  "visible": "{{$self.value===true}}"
-                }
-              }
-            }
-          ],
-          "x-index": 110
-        },
-        "sslCA": {
-          "type": "string",
-          "title": "${dataForm_form_sslCA}",
-          "x-decorator": "FormItem",
-          "x-component": "TextFileReader",
-          "fileNameField": "sslCAFile",
-          "required": true,
-          "x-index": 120
         }
       }
     }
@@ -263,7 +49,7 @@
       "isUri": "Connection method",
       "isUrlTips1": "Configure MongoDB database in URI mode. Batch input is supported",
       "isUrlTips2": "Tapdata will connect to a separate server in your network which provides an TSL/SSL tunnel to your database. This method is necessary if your database is in an inaccessible subnet",
-      "uriTips": "MongoDB database connection URI example:\nThe username and password in the URI must be url encoded and then spliced into the connection string\nReplica set: mongodb://192.168.0.100:27017/mydb?replicaSet=xxx\n Authenticated replica set: mongodb://admin:password@192.168.0.100:27017/mydb?replicaSet=xxx&authSource=admin\nMulti-node replica set: mongodb://192.168.0.1:27017,192.168.0.2:27017, 192.168.0.3:27017/mydb?replicaSet=xxx\nSharded set: mongodb://192.168.0.100:27017/mydb\nMultiple mongos: mongodb://192.168.0.1:27017,192.168.0.2:27017, 192.168.0.3:27017/mydb",
+      "uriTips": "MongoDB dat192.168.0.1:27017abase connection URI example:\nThe username and password in the URI must be url encoded and then spliced into the connection string\nReplica set: mongodb://192.168.0.100:27017/mydb?replicaSet=xxx\n Authenticated replica set: mongodb://admin:password@192.168.0.100:27017/mydb?replicaSet=xxx&authSource=admin\nMulti-node replica set: mongodb://192.168.0.1:27017,192.168.0.2:27017, 192.168.0.3:27017/mydb?replicaSet=xxx\nSharded set: mongodb://192.168.0.100:27017/mydb\nMultiple mongos: mongodb://192.168.0.1:27017,192.168.0.2:27017, 192.168.0.3:27017/mydb",
       "dataForm_form_options_URIMode": "URI Mode",
       "dataForm_form_options_standardMode": "Standard Mode",
       "dataForm_form_databaseUri": "Database URI",

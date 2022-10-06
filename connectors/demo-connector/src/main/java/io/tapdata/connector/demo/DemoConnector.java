@@ -10,7 +10,9 @@ import io.tapdata.entity.event.dml.TapUpdateRecordEvent;
 import io.tapdata.entity.logger.TapLogger;
 import io.tapdata.entity.schema.TapTable;
 import io.tapdata.entity.simplify.TapSimplify;
+import io.tapdata.entity.utils.DataMap;
 import io.tapdata.pdk.apis.annotations.TapConnectorClass;
+import io.tapdata.pdk.apis.consumer.StreamReadConsumer;
 import io.tapdata.pdk.apis.context.TapConnectionContext;
 import io.tapdata.pdk.apis.context.TapConnectorContext;
 import io.tapdata.pdk.apis.entity.ConnectionOptions;
@@ -28,25 +30,56 @@ import java.util.function.Consumer;
 public class DemoConnector extends ConnectorBase {
 
   private AtomicInteger counter = new AtomicInteger();
-  private static final String TAG = DemoConnector.class.getSimpleName();
+  private static final String TAG = "DEMO_CONNECTOR";
+  private volatile boolean running = false;
 
   @Override
   public void onStart(TapConnectionContext connectionContext) throws Throwable {
+    running = true;
+    TapLogger.warn(TAG, "demo 连接配置: {} is null? {}", connectionContext.getConnectionConfig(),
+        connectionContext.getConnectionConfig() == null);
+    if (connectionContext.getConnectionConfig() == null) {
+      connectionContext.setConnectionConfig(new DataMap());
+    }
     connectionContext.getConnectionConfig().put("_key_", "sdvdxl");
-    TapLogger.info(TAG, "Demo Connector 启动 :{}", connectionContext.getConnectionConfig());
+    TapLogger.info(TAG, "Demo Connector start :{}", connectionContext.getConnectionConfig());
   }
 
   @Override
   public void onStop(TapConnectionContext connectionContext) throws Throwable {
-    TapLogger.info(TAG, "Demo Connector 停止 :{}", connectionContext.getConnectionConfig());
-
+    TapLogger.info(TAG, "Demo Connector stop :{}", connectionContext.getConnectionConfig());
+    running = false;
   }
 
   @Override
   public void registerCapabilities(ConnectorFunctions connectorFunctions,
       TapCodecsRegistry codecRegistry) {
+    TapLogger.info(TAG, "Demo Connector registerCapabilities");
+
     connectorFunctions.supportBatchRead(this::batchRead);
+    connectorFunctions.supportStreamRead(this::streamRead);
     connectorFunctions.supportWriteRecord(this::writeRecord);
+  }
+
+  private void streamRead(TapConnectorContext nodeContext, List<String> tableList,
+      Object offsetState, int recordSize, StreamReadConsumer consumer) throws Throwable {
+    TapLogger.info(TAG, "表名：{}", tableList);
+    List<TapEvent> list = TapSimplify.list();
+
+    while (running) {
+      for (String tname : tableList) {
+        Thread.sleep(1000);
+        Map<String, Object> map = new HashMap<>();
+        map.put("a", counter.get());
+        list.add(TapSimplify.insertRecordEvent(map, tname)
+            .referenceTime(System.currentTimeMillis()));
+        TapLogger.info(TAG, "发送数据：{}", map);
+        if (list.size() >= recordSize) {
+          consumer.accept(list, TapSimplify.list());
+        }
+      }
+
+    }
   }
 
   private void writeRecord(TapConnectorContext tapConnectorContext,
@@ -66,7 +99,7 @@ public class DemoConnector extends ConnectorBase {
       } else {
         data = new HashMap<>();
       }
-      TapLogger.info(TAG, "收到消息，表 {}， 消息：{}", tapTable.getName(),data);
+      TapLogger.info(TAG, "收到消息，表 {}， 消息：{}", tapTable.getName(), data);
 
     }
     writeListResultConsumer.accept(listResult);
@@ -75,6 +108,7 @@ public class DemoConnector extends ConnectorBase {
   private void batchRead(TapConnectorContext connectorContext, TapTable table, Object offsetState,
       int eventBatchSize, BiConsumer<List<TapEvent>, Object> eventsOffsetConsumer) {
     if (counter.incrementAndGet() > 100) {
+      eventsOffsetConsumer.accept(TapSimplify.list(), TapSimplify.list());
       return;
     }
 

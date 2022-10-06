@@ -35,8 +35,8 @@
 		<appender-ref ref="APP_LOG_FILE" />
 	</root>
 
-	<logger name="com.tapdata" level="INFO" />
-	<logger name="com.tapdata.tm.base.filter" level="INFO" />
+	<logger name="com.tapdata" level="debug" />
+<!--	<logger name="com.tapdata.tm.base.filter" level="INFO" />-->
 	<logger name="org.springframework.data.mongodb" level="INFO"/>
 	<logger name="org.mongodb.driver" level="INFO"/>
 	<logger name="net.javacrumbs.shedlock.core" level="INFO"/>
