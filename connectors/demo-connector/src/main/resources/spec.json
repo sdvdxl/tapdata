@@ -26,6 +26,13 @@
     "connection": {
       "type": "object",
       "properties": {
+        "host": {
+          "type": "string",
+          "title": "${dataForm_form_userName}",
+          "x-decorator": "FormItem",
+          "x-component": "Input",
+          "x-index": 30
+        },
         "ak": {
           "type": "string",
           "title": "${dataForm_form_userName}",
