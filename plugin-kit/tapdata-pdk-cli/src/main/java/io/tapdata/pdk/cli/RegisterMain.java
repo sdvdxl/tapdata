@@ -42,6 +42,7 @@ public class RegisterMain {
 //        Mariadb(BASE_PATH + "connectors/dist/mariadb-connector-v1.0-SNAPSHOT.jar", "all", "mariadb"),
     Demo(BASE_PATH + "connectors/dist/demo-connector-v1.0-SNAPSHOT.jar", "all", "demo"),
 
+
     ;
 
     private final String path;
