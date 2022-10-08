@@ -110,9 +110,7 @@ public class DemoConnector extends ConnectorBase {
         Map<String, Object> map = new HashMap<>();
         int num = counter.incrementAndGet();
         map.put("string", String.valueOf(num));
-        map.put("tapString", new TapStringValue(String.valueOf(num)));
         map.put("int", num);
-        map.put("intTapNumber", new TapNumberValue((double) num));
         list.add(
             TapSimplify.insertRecordEvent(map, tname).referenceTime(System.currentTimeMillis()));
         TapLogger.info(TAG, "发送数据：{}", map);
